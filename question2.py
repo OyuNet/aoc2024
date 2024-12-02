@@ -16,6 +16,23 @@ def count_safe_reports(reports):
             safe_count += 1
     return safe_count
 
+def is_safe_with_dampener(levels):
+    if is_safe_report(levels):
+        return True
+    
+    for i in range(len(levels)):
+        new_levels = levels[:i] + levels[i+1:]
+        if is_safe_report(new_levels):
+            return True
+    return False
+
+def count_safe_reports_with_dampener(reports):
+    safe_count = 0
+    for report in reports:
+        if is_safe_with_dampener(report):
+            safe_count += 1
+    return safe_count
+
 inputFile = open("input.txt", "r")
 lines = inputFile.readlines()
 
@@ -30,4 +47,6 @@ for i in lines:
     levels.append(level)
 
 result = count_safe_reports(levels)
-print(result)
+print("Number of safe reports:", result)
+result = count_safe_reports_with_dampener(levels)
+print("Number of safe reports with Problem Dampener:", result)
